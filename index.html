@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yathva Media — Ideas with Indian Soul</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --off-black: #111111;
+    --deep: #161412;
+    --gold: #c9a96e;
+    --gold-light: #e8d4aa;
+    --gold-muted: #8a6f47;
+    --cream: #f0ead8;
+    --cream-soft: #d9cdb8;
+    --white: #fafaf8;
+    --neutral: #3a3530;
+    --neutral-mid: #6b6259;
+    --fs-hero: clamp(3.2rem, 8vw, 7.5rem);
+    --fs-h2: clamp(2rem, 4vw, 3.5rem);
+    --fs-h3: clamp(1.2rem, 2vw, 1.6rem);
+    --fs-body: clamp(0.9rem, 1.2vw, 1.05rem);
+    --fs-sm: 0.8rem;
+    --radius: 2px;
+    --transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ── NOISE TEXTURE ───────────────────────── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ─────────────────────────────────── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.8rem 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    mix-blend-mode: normal;
+    transition: background var(--transition), padding var(--transition);
+  }
+
+  nav.scrolled {
+    background: rgba(10, 10, 10, 0.92);
+    backdrop-filter: blur(16px);
+    padding: 1.2rem 6vw;
+    border-bottom: 1px solid rgba(201, 169, 110, 0.1);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--gold-light);
+    text-decoration: none;
+  }
+
+  .nav-logo span {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--cream-soft);
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 400;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.4s var(--transition);
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-cta {
+    border: 1px solid var(--gold-muted);
+    padding: 0.55rem 1.4rem;
+    border-radius: var(--radius);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold) !important;
+    transition: background 0.3s, color 0.3s !important;
+  }
+
+  .nav-cta:hover { background: var(--gold) !important; color: var(--black) !important; }
+  .nav-cta::after { display: none !important; }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px; height: 1px;
+    background: var(--gold);
+    transition: var(--transition);
+  }
+
+  /* ── HERO ────────────────────────────────── */
+  #hero {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12vh 6vw 10vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 40%, rgba(201,169,110,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 20% 70%, rgba(138,111,71,0.04) 0%, transparent 50%);
+  }
+
+  /* Geometric motif — subtle lotus-inspired rings */
+  .hero-mandala {
+    position: absolute;
+    right: -8vw;
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(300px, 45vw, 600px);
+    height: clamp(300px, 45vw, 600px);
+    opacity: 0.04;
+    animation: slowSpin 40s linear infinite;
+  }
+
+  @keyframes slowSpin {
+    from { transform: translateY(-50%) rotate(0deg); }
+    to   { transform: translateY(-50%) rotate(360deg); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+  }
+
+  .hero-eyebrow {
+    font-size: var(--fs-sm);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 400;
+    margin-bottom: 1.8rem;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.8s 0.2s forwards;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 2.5rem; height: 1px;
+    background: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: var(--fs-hero);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    margin-bottom: 1.2rem;
+    opacity: 0;
+    transform: translateY(24px);
+    animation: fadeUp 1s 0.4s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .hero-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.3rem, 2.5vw, 2rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--gold);
+    margin-bottom: 2.2rem;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.9s 0.6s forwards;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-sub {
+    font-size: var(--fs-body);
+    color: var(--neutral-mid);
+    max-width: 480px;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.9s 0.8s forwards;
+    font-weight: 300;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.9s 1s forwards;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--black);
+    padding: 0.9rem 2.4rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.35s, transform 0.35s;
+    border: 1px solid var(--gold);
+  }
+
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+  }
+
+  .btn-ghost {
+    color: var(--cream-soft);
+    padding: 0.9rem 2.4rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 400;
+    border: 1px solid rgba(201,169,110,0.25);
+    transition: border-color 0.35s, color 0.35s;
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 3rem; left: 6vw;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-muted);
+    opacity: 0;
+    animation: fadeUp 1s 1.4s forwards;
+  }
+
+  .scroll-line {
+    width: 2rem; height: 1px;
+    background: var(--gold-muted);
+    animation: scrollPulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { width: 2rem; opacity: 0.5; }
+    50% { width: 3.5rem; opacity: 1; }
+  }
+
+  /* ── SECTION BASE ────────────────────────── */
+  section { padding: clamp(5rem, 10vh, 9rem) 6vw; }
+
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 400;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 1.8rem; height: 1px;
+    background: var(--gold);
+  }
+
+  .section-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: var(--fs-h2);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--white);
+    letter-spacing: -0.01em;
+  }
+
+  .section-heading em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .divider {
+    width: 3rem; height: 1px;
+    background: var(--gold-muted);
+    margin: 2rem 0;
+    opacity: 0.5;
+  }
+
+  /* ── ABOUT ───────────────────────────────── */
+  #about {
+    background: var(--deep);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #about::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    left: -10%;
+    width: 50%;
+    height: 150%;
+    background: radial-gradient(ellipse, rgba(201,169,110,0.04) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6vw;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .about-text p {
+    font-size: var(--fs-body);
+    color: var(--neutral-mid);
+    line-height: 1.9;
+    margin-bottom: 1.2rem;
+  }
+
+  .about-text p strong {
+    color: var(--cream);
+    font-weight: 400;
+  }
+
+  .about-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .about-monogram {
+    width: clamp(180px, 20vw, 280px);
+    height: clamp(180px, 20vw, 280px);
+    border: 1px solid rgba(201,169,110,0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .about-monogram::before, .about-monogram::after {
+    content: '';
+    position: absolute;
+    border: 1px solid rgba(201,169,110,0.07);
+    border-radius: 50%;
+  }
+
+  .about-monogram::before {
+    inset: -20px;
+    animation: ringPulse 4s ease-in-out infinite;
+  }
+
+  .about-monogram::after {
+    inset: -40px;
+    animation: ringPulse 4s ease-in-out 1s infinite;
+  }
+
+  @keyframes ringPulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.02); }
+  }
+
+  .monogram-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem;
+    font-weight: 300;
+    color: var(--gold);
+    opacity: 0.5;
+    font-style: italic;
+    line-height: 1;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .stat {
+    padding: 1.5rem;
+    border: 1px solid rgba(201,169,110,0.1);
+    background: rgba(201,169,110,0.02);
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--neutral-mid);
+  }
+
+  /* ── SERVICES ────────────────────────────── */
+  #services {
+    background: var(--black);
+  }
+
+  .services-header {
+    max-width: 1200px;
+    margin: 0 auto 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4vw;
+    align-items: end;
+  }
+
+  .services-intro {
+    font-size: var(--fs-body);
+    color: var(--neutral-mid);
+    line-height: 1.8;
+    max-width: 360px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(201,169,110,0.08);
+  }
+
+  .service-card {
+    background: var(--black);
+    padding: 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.5s;
+    cursor: default;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s var(--transition);
+  }
+
+  .service-card:hover { background: rgba(201,169,110,0.04); }
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .service-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: rgba(201,169,110,0.08);
+    line-height: 1;
+    margin-bottom: 2rem;
+    transition: color 0.5s;
+  }
+
+  .service-card:hover .service-num { color: rgba(201,169,110,0.2); }
+
+  .service-icon {
+    width: 2.2rem; height: 2.2rem;
+    margin-bottom: 1.5rem;
+    color: var(--gold);
+    opacity: 0.7;
+  }
+
+  .service-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 0.8rem;
+    line-height: 1.2;
+  }
+
+  .service-desc {
+    font-size: 0.85rem;
+    color: var(--neutral-mid);
+    line-height: 1.7;
+  }
+
+  .service-arrow {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    color: var(--gold-muted);
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    display: inline-block;
+  }
+
+  .service-card:hover .service-arrow { opacity: 1; transform: translateX(4px); }
+
+  /* ── PORTFOLIO ───────────────────────────── */
+  #portfolio {
+    background: var(--deep);
+  }
+
+  .portfolio-header {
+    max-width: 1200px;
+    margin: 0 auto 3.5rem;
+  }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .portfolio-card {
+    position: relative;
+    overflow: hidden;
+    background: var(--off-black);
+    border: 1px solid rgba(201,169,110,0.08);
+    transition: border-color 0.4s, transform 0.4s;
+    cursor: pointer;
+  }
+
+  .portfolio-card:hover {
+    border-color: rgba(201,169,110,0.3);
+    transform: translateY(-4px);
+  }
+
+  .portfolio-thumb {
+    width: 100%;
+    aspect-ratio: 16/10;
+    background: var(--neutral);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .portfolio-thumb-bg {
+    position: absolute;
+    inset: 0;
+    transition: transform 0.6s;
+  }
+
+  .portfolio-card:hover .portfolio-thumb-bg { transform: scale(1.05); }
+
+  .p1 { background: linear-gradient(135deg, #1a1410 0%, #2d2218 50%, #1a1410 100%); }
+  .p2 { background: linear-gradient(135deg, #0f1419 0%, #1a2530 50%, #0f1419 100%); }
+  .p3 { background: linear-gradient(135deg, #1a1015 0%, #2d1820 50%, #1a1015 100%); }
+  .p4 { background: linear-gradient(135deg, #101a10 0%, #182d18 50%, #101a10 100%); }
+  .p5 { background: linear-gradient(135deg, #191414 0%, #2a2020 50%, #191414 100%); }
+  .p6 { background: linear-gradient(135deg, #14141a 0%, #20202a 50%, #14141a 100%); }
+
+  .portfolio-thumb-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: rgba(201,169,110,0.15);
+    font-style: italic;
+    z-index: 1;
+    letter-spacing: 0.05em;
+  }
+
+  .portfolio-tag {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(10,10,10,0.8);
+    padding: 0.3rem 0.7rem;
+    border: 1px solid rgba(201,169,110,0.2);
+    z-index: 2;
+  }
+
+  .portfolio-info {
+    padding: 1.5rem 1.5rem 2rem;
+  }
+
+  .portfolio-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 0.4rem;
+  }
+
+  .portfolio-meta {
+    font-size: 0.78rem;
+    color: var(--neutral-mid);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── WHY US ──────────────────────────────── */
+  #why {
+    background: var(--black);
+    position: relative;
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 3rem auto 0;
+  }
+
+  .why-card {
+    padding: 2.5rem 1.8rem;
+    border-top: 1px solid rgba(201,169,110,0.15);
+    position: relative;
+    transition: border-color 0.4s;
+  }
+
+  .why-card::before {
+    content: attr(data-num);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    color: var(--gold-muted);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+
+  .why-card:hover { border-color: var(--gold); }
+
+  .why-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .why-desc {
+    font-size: 0.85rem;
+    color: var(--neutral-mid);
+    line-height: 1.75;
+  }
+
+  /* ── CONTACT ─────────────────────────────── */
+  #contact {
+    background: var(--deep);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #contact::after {
+    content: '';
+    position: absolute;
+    bottom: -20%;
+    right: -10%;
+    width: 50%;
+    height: 80%;
+    background: radial-gradient(ellipse, rgba(201,169,110,0.04) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .contact-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 8vw;
+    align-items: start;
+  }
+
+  .contact-left h2 { margin-bottom: 1.5rem; }
+
+  .contact-left p {
+    font-size: var(--fs-body);
+    color: var(--neutral-mid);
+    line-height: 1.85;
+    margin-bottom: 2.5rem;
+    max-width: 340px;
+  }
+
+  .contact-info { display: flex; flex-direction: column; gap: 1.2rem; }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: var(--cream-soft);
+    font-size: 0.9rem;
+    transition: color 0.3s;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid rgba(201,169,110,0.08);
+  }
+
+  .contact-item:last-child { border-bottom: none; }
+  .contact-item:hover { color: var(--gold); }
+
+  .contact-icon {
+    width: 2.5rem; height: 2.5rem;
+    border: 1px solid rgba(201,169,110,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: var(--gold);
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+
+  .contact-item:hover .contact-icon { background: rgba(201,169,110,0.1); }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .form-group label {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-muted);
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    background: rgba(201,169,110,0.03);
+    border: 1px solid rgba(201,169,110,0.12);
+    color: var(--cream);
+    padding: 1rem 1.2rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.3s;
+    width: 100%;
+    -webkit-appearance: none;
+  }
+
+  .form-group textarea { height: 130px; resize: vertical; }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: var(--gold-muted);
+    background: rgba(201,169,110,0.05);
+  }
+
+  .form-group select option { background: var(--off-black); }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+
+  .btn-submit {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 1rem 2rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.35s, color 0.35s;
+    align-self: flex-start;
+    margin-top: 0.5rem;
+  }
+
+  .btn-submit:hover { background: var(--gold); color: var(--black); }
+
+  /* ── FOOTER ──────────────────────────────── */
+  footer {
+    background: var(--black);
+    border-top: 1px solid rgba(201,169,110,0.08);
+    padding: 3rem 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: var(--gold-light);
+    letter-spacing: 0.08em;
+  }
+
+  .footer-logo span { font-style: italic; color: var(--gold); }
+
+  .footer-tagline {
+    font-size: 0.75rem;
+    color: var(--neutral-mid);
+    letter-spacing: 0.1em;
+    margin-top: 0.3rem;
+  }
+
+  .footer-copy {
+    font-size: 0.75rem;
+    color: rgba(107,98,89,0.5);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── ANIMATIONS ──────────────────────────── */
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s var(--transition), transform 0.8s var(--transition);
+  }
+
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── MOBILE ──────────────────────────────── */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+
+    .about-grid,
+    .services-header { grid-template-columns: 1fr; }
+    .about-visual { display: none; }
+
+    .services-grid { grid-template-columns: 1fr 1fr; }
+
+    .portfolio-grid { grid-template-columns: 1fr 1fr; }
+
+    .why-grid { grid-template-columns: 1fr 1fr; }
+
+    .contact-inner { grid-template-columns: 1fr; }
+    .contact-left p { max-width: 100%; }
+
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 1.4rem 5vw; }
+    section { padding: 4rem 5vw; }
+
+    .services-grid { grid-template-columns: 1fr; }
+    .portfolio-grid { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    .services-header { grid-template-columns: 1fr; }
+
+    .hero-title br { display: none; }
+
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+
+  /* ── MOBILE MENU ─────────────────────────── */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,10,10,0.97);
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s;
+  }
+
+  .mobile-menu.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .mobile-menu a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    color: var(--cream);
+    text-decoration: none;
+    font-weight: 300;
+    transition: color 0.3s;
+  }
+
+  .mobile-menu a:hover { color: var(--gold); }
+
+  .mobile-close {
+    position: absolute;
+    top: 1.8rem; right: 5vw;
+    font-size: 1.5rem;
+    color: var(--gold-muted);
+    cursor: pointer;
+    background: none; border: none;
+    transition: color 0.3s;
+  }
+
+  .mobile-close:hover { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="toggleMenu()">✕</button>
+  <a href="#about" onclick="toggleMenu()">About</a>
+  <a href="#services" onclick="toggleMenu()">Services</a>
+  <a href="#portfolio" onclick="toggleMenu()">Portfolio</a>
+  <a href="#why" onclick="toggleMenu()">Why Us</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">Yath<span>va</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#contact" class="nav-cta">Get Started</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+
+  <!-- Geometric lotus motif -->
+  <svg class="hero-mandala" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="200" cy="200" r="180" stroke="#c9a96e" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="140" stroke="#c9a96e" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="100" stroke="#c9a96e" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="60" stroke="#c9a96e" stroke-width="0.5"/>
+    <line x1="200" y1="20" x2="200" y2="380" stroke="#c9a96e" stroke-width="0.3"/>
+    <line x1="20" y1="200" x2="380" y2="200" stroke="#c9a96e" stroke-width="0.3"/>
+    <line x1="73" y1="73" x2="327" y2="327" stroke="#c9a96e" stroke-width="0.3"/>
+    <line x1="327" y1="73" x2="73" y2="327" stroke="#c9a96e" stroke-width="0.3"/>
+    <!-- Lotus petals (8) -->
+    <ellipse cx="200" cy="110" rx="18" ry="38" stroke="#c9a96e" stroke-width="0.5"/>
+    <ellipse cx="290" cy="200" rx="38" ry="18" stroke="#c9a96e" stroke-width="0.5"/>
+    <ellipse cx="200" cy="290" rx="18" ry="38" stroke="#c9a96e" stroke-width="0.5"/>
+    <ellipse cx="110" cy="200" rx="38" ry="18" stroke="#c9a96e" stroke-width="0.5"/>
+    <ellipse cx="254" cy="146" rx="18" ry="38" transform="rotate(45 254 146)" stroke="#c9a96e" stroke-width="0.5"/>
+    <ellipse cx="254" cy="254" rx="18" ry="38" transform="rotate(-45 254 254)" stroke="#c9a96e" stroke-width="0.5"/>
+    <ellipse cx="146" cy="254" rx="18" ry="38" transform="rotate(45 146 254)" stroke="#c9a96e" stroke-width="0.5"/>
+    <ellipse cx="146" cy="146" rx="18" ry="38" transform="rotate(-45 146 146)" stroke="#c9a96e" stroke-width="0.5"/>
+  </svg>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">AI-Powered Media & Marketing</p>
+    <h1 class="hero-title">Yathva<br><em>Media</em></h1>
+    <p class="hero-tagline">Ideas with Indian Soul</p>
+    <p class="hero-sub">
+      AI-powered ads, UGC, and marketing solutions
+      for growing brands that want to be remembered.
+    </p>
+    <div class="hero-actions">
+      <a href="#services" class="btn-primary">Explore Services</a>
+      <a href="#contact" class="btn-ghost">Start a Project</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span class="scroll-line"></span>
+    Scroll
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p class="section-label">About Us</p>
+      <h2 class="section-heading">We build brands that <em>belong.</em></h2>
+      <div class="divider"></div>
+      <p>
+        Yathva Media is an <strong>AI-powered media and marketing startup</strong> built for growing brands. We believe every small brand deserves the creative firepower of the big players — delivered smarter, faster, and more affordably.
+      </p>
+      <p>
+        We combine <strong>artificial intelligence with human creativity</strong> to produce ad creatives, UGC content, and brand strategies that are rooted in authenticity and driven by data. Our work carries an <strong>Indian soul</strong> — warm, bold, and deeply intentional.
+      </p>
+      <div class="about-stats">
+        <div class="stat">
+          <div class="stat-num">50+</div>
+          <div class="stat-label">Brands Served</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">3×</div>
+          <div class="stat-label">Avg. ROAS Growth</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">AI</div>
+          <div class="stat-label">Strategy First</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Creative Ideas</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-visual reveal reveal-delay-2">
+      <div class="about-monogram">
+        <span class="monogram-text">YM</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header reveal">
+    <div>
+      <p class="section-label">What We Do</p>
+      <h2 class="section-heading">Services built<br>for <em>growth.</em></h2>
+    </div>
+    <p class="services-intro">
+      From crafting scroll-stopping ad creatives to architecting your entire AI content strategy — we do it with precision, purpose, and personality.
+    </p>
+  </div>
+
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="2" y="3" width="20" height="14" rx="1"/><path d="M8 21h8M12 17v4"/>
+      </svg>
+      <h3 class="service-title">Ad Creative</h3>
+      <p class="service-desc">High-converting visual and copy assets for Meta, Google, and beyond. Designed to stop the scroll and start the conversation.</p>
+      <span class="service-arrow">→</span>
+    </div>
+
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+        <circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/>
+        <path d="M16 11l2 2 4-4"/>
+      </svg>
+      <h3 class="service-title">UGC Content</h3>
+      <p class="service-desc">Authentic user-generated style content that builds trust, drives engagement, and feels native to every platform.</p>
+      <span class="service-arrow">→</span>
+    </div>
+
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+      </svg>
+      <h3 class="service-title">Brand Marketing</h3>
+      <p class="service-desc">Full-funnel marketing strategies that align your brand identity with your audience's desires and cultural context.</p>
+      <span class="service-arrow">→</span>
+    </div>
+
+    <div class="service-card">
+      <div class="service-num">04</div>
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+        <circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+      </svg>
+      <h3 class="service-title">AI Content Strategy</h3>
+      <p class="service-desc">Data-led content frameworks powered by AI that keep your brand publishing consistently, efficiently, and effectively.</p>
+      <span class="service-arrow">→</span>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="portfolio-header reveal">
+    <p class="section-label">Selected Work</p>
+    <h2 class="section-heading">Ideas brought<br>to <em>life.</em></h2>
+  </div>
+
+  <div class="portfolio-grid">
+    <div class="portfolio-card reveal">
+      <div class="portfolio-thumb">
+        <div class="portfolio-thumb-bg p1"></div>
+        <span class="portfolio-thumb-label">Aura</span>
+        <span class="portfolio-tag">Ad Creative</span>
+      </div>
+      <div class="portfolio-info">
+        <h3 class="portfolio-title">Aura Skincare</h3>
+        <p class="portfolio-meta">D2C Brand — Instagram Ad Campaign</p>
+      </div>
+    </div>
+
+    <div class="portfolio-card reveal reveal-delay-1">
+      <div class="portfolio-thumb">
+        <div class="portfolio-thumb-bg p2"></div>
+        <span class="portfolio-thumb-label">Roots</span>
+        <span class="portfolio-tag">UGC Content</span>
+      </div>
+      <div class="portfolio-info">
+        <h3 class="portfolio-title">Roots Organic</h3>
+        <p class="portfolio-meta">Food Brand — UGC Content Series</p>
+      </div>
+    </div>
+
+    <div class="portfolio-card reveal reveal-delay-2">
+      <div class="portfolio-thumb">
+        <div class="portfolio-thumb-bg p3"></div>
+        <span class="portfolio-thumb-label">Veda</span>
+        <span class="portfolio-tag">Brand Strategy</span>
+      </div>
+      <div class="portfolio-info">
+        <h3 class="portfolio-title">Veda Wellness</h3>
+        <p class="portfolio-meta">Health Brand — Full Brand Marketing</p>
+      </div>
+    </div>
+
+    <div class="portfolio-card reveal reveal-delay-1">
+      <div class="portfolio-thumb">
+        <div class="portfolio-thumb-bg p4"></div>
+        <span class="portfolio-thumb-label">Kala</span>
+        <span class="portfolio-tag">AI Strategy</span>
+      </div>
+      <div class="portfolio-info">
+        <h3 class="portfolio-title">Kala Apparel</h3>
+        <p class="portfolio-meta">Fashion Brand — AI Content Strategy</p>
+      </div>
+    </div>
+
+    <div class="portfolio-card reveal reveal-delay-2">
+      <div class="portfolio-thumb">
+        <div class="portfolio-thumb-bg p5"></div>
+        <span class="portfolio-thumb-label">Soma</span>
+        <span class="portfolio-tag">Ad Creative</span>
+      </div>
+      <div class="portfolio-info">
+        <h3 class="portfolio-title">Soma Beverages</h3>
+        <p class="portfolio-meta">Beverage Brand — Performance Ads</p>
+      </div>
+    </div>
+
+    <div class="portfolio-card reveal reveal-delay-3">
+      <div class="portfolio-thumb">
+        <div class="portfolio-thumb-bg p6"></div>
+        <span class="portfolio-thumb-label">Arka</span>
+        <span class="portfolio-tag">Brand Marketing</span>
+      </div>
+      <div class="portfolio-info">
+        <h3 class="portfolio-title">Arka Jewels</h3>
+        <p class="portfolio-meta">Jewellery Brand — Full-Funnel Campaign</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="reveal" style="max-width:1200px;margin:0 auto;">
+    <p class="section-label">Why Yathva</p>
+    <h2 class="section-heading">Built different,<br>by <em>design.</em></h2>
+  </div>
+
+  <div class="why-grid">
+    <div class="why-card reveal" data-num="— 01">
+      <h3 class="why-title">Creative</h3>
+      <p class="why-desc">We don't do cookie-cutter. Every piece of content is thoughtfully crafted to feel distinctly yours — rooted in your brand's truth.</p>
+    </div>
+    <div class="why-card reveal reveal-delay-1" data-num="— 02">
+      <h3 class="why-title">Affordable</h3>
+      <p class="why-desc">Premium creative doesn't need to cost a fortune. We believe every growing brand deserves world-class marketing at the right price.</p>
+    </div>
+    <div class="why-card reveal reveal-delay-2" data-num="— 03">
+      <h3 class="why-title">AI-Driven</h3>
+      <p class="why-desc">We harness the power of AI to move faster, iterate smarter, and deliver more for your budget — without losing the human touch.</p>
+    </div>
+    <div class="why-card reveal reveal-delay-3" data-num="— 04">
+      <h3 class="why-title">Brand-Focused</h3>
+      <p class="why-desc">Every decision is made through the lens of your brand's long-term vision. We build equity, not just clicks.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="contact-left reveal">
+      <p class="section-label">Let's Talk</p>
+      <h2 class="section-heading">Start your<br><em>story</em> with us.</h2>
+      <div class="divider"></div>
+      <p>
+        Ready to grow your brand with AI-powered creativity? Tell us about your project and let's build something remarkable together.
+      </p>
+      <div class="contact-info">
+        <a href="mailto:yatharjain@gmail.com" class="contact-item">
+          <div class="contact-icon">✉</div>
+          <div>
+            <div style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-muted);margin-bottom:0.2rem;">Email</div>
+            hello@yathvamedia.com
+          </div>
+        </a>
+        <a href="https://instagram.com/yathvamedia" class="contact-item">
+          <div class="contact-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2" width="20" height="20" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-muted);margin-bottom:0.2rem;">Instagram</div>
+            @yathvamedia
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="reveal reveal-delay-2">
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="your@email.com" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Brand / Company</label>
+          <input type="text" placeholder="Your brand name">
+        </div>
+        <div class="form-group">
+          <label>Service Needed</label>
+          <select>
+            <option value="">Select a service</option>
+            <option>Ad Creative</option>
+            <option>UGC Content</option>
+            <option>Brand Marketing</option>
+            <option>AI Content Strategy</option>
+            <option>Full Package</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tell Us About Your Brand</label>
+          <textarea placeholder="Share your goals, challenges, or vision..."></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Send Message →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">Yath<span>va</span> Media</div>
+    <div class="footer-tagline">Ideas with Indian Soul</div>
+  </div>
+  <div class="footer-copy">© 2025 Yathva Media. All rights reserved.</div>
+</footer>
+
+<script>
+  // Navbar scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Mobile menu
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  // Intersection observer for reveals
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-submit');
+    const orig = btn.textContent;
+    btn.textContent = 'Sent ✓';
+    btn.style.background = 'var(--gold)';
+    btn.style.color = 'var(--black)';
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.style.background = '';
+      btn.style.color = '';
+      e.target.reset();
+    }, 2800);
+  }
+</script>
+</body>
+</html>
